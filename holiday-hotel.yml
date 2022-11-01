@@ -1,0 +1,59 @@
+server:
+  port: 8082
+
+spring:
+  config:
+    activate:
+      on-profile: default
+  application:
+    name: holiday-hotel
+  datasource:
+    url: jdbc:postgresql://${holiday-hotel-db:localhost}:5432/holiday-hotel-db
+    username: sergio
+    password: sergio
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true   # INITIALIZE DB
+  sql:
+    init:
+      mode: always  # INITIALIZE DB
+      platform: postgresql
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher   # PARA QUE FUNCIONE @ENABLESWAGGER2
+
+--- # Testing configuration
+
+server:
+  port: 8082
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  application:
+    name: holiday-hotel
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sergio
+    password: sergio
+    data: classpath:data-h2.sql
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true   # INITIALIZE DB
+  sql:
+    init:
+      mode: always  # INITIALIZE DB
+      platform: h2
+  h2:
+    console:
+      enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher   # PARA QUE FUNCIONE @ENABLESWAGGER2

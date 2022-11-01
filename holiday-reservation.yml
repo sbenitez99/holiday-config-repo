@@ -1,0 +1,55 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+  application:
+    name: holiday-reservation
+  datasource:
+    url: jdbc:mysql://${holiday-reservation-db:localhost}:3307/holiday-reservation-db
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher   # PARA QUE FUNCIONE @ENABLESWAGGER2
+
+app:
+  environment:
+    holiday-flight-host: ${holiday-flight-host:localhost}
+    holiday-hotel-host: ${holiday-hotel-host:localhost}
+
+--- # Testing configuration
+
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  application:
+    name: holiday-reservation
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sergio
+    password: sergio
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher   # PARA QUE FUNCIONE @ENABLESWAGGER2
+
+app:
+  environment:
+    holiday-flight-host: none
+    holiday-hotel-host: none
